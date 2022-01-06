@@ -8,7 +8,7 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 router.get('/', rejectUnauthenticated, (req, res) => {
     console.log(req.user)
     const sqlText = 
-    `SELECT "show".show_name, "show".date FROM show
+    `SELECT "show".show_name, "show".date, "show".id  FROM show
     JOIN "user_show" on "show".id = "user_show".show_id
     JOIN "user" on "user".id = "user_show".user_id
     Where "user".id = $1;
@@ -35,6 +35,40 @@ router.get('/', rejectUnauthenticated, (req, res) => {
  */
 router.post('/', (req, res) => {
   // POST route code here
+console.log(req.body);
+  // RETURNING "id" will give us back the id of the created movie
+const insertDateQuery = `
+INSERT INTO "show" ("show_name", "date")
+VALUES ($1, $2)
+RETURNING "id";`
+
+  // FIRST QUERY MAKES MOVIE
+pool.query(insertDateQuery, [req.body.name, req.body.date])
+.then(result => {
+    console.log('New Date Id:', result.rows[0].id); //ID IS HERE!
+    
+    const createdDateId = result.rows[0].id
+
+    // Now handle the genre reference
+    const insertDateIDQuery = `
+    INSERT INTO "user_show" ("user_id", "show_id")
+    VALUES  ($1, $2);
+    `
+      // SECOND QUERY ADDS GENRE FOR THAT NEW MOVIE
+    pool.query(insertDateIDQuery, [req.user.id, createdDateId]).then(result => {
+        //Now that both are done, send back success!
+        res.sendStatus(201);
+    }).catch(err => {
+        // catch for second query
+        console.log(err);
+        res.sendStatus(500)
+    })
+
+// Catch for first query
+    }).catch(err => {
+        console.log(err);
+        res.sendStatus(500)
+    })
 });
 
 module.exports = router;

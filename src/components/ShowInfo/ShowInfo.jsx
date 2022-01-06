@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import ShowInfoTable from './ShowInfoTable';
 // This is one of our simplest components
 // It doesn't have local state,
 // It doesn't dispatch any redux actions or display any part of redux state
@@ -10,7 +11,7 @@ import { useParams } from 'react-router-dom';
 function ShowInfo() {
     const history = useHistory();
     const params = useParams();
-    const selectedMovie = useSelector((store) => store.selectedMovie);
+    const selectedDate = useSelector((store) => store.selectedDate);
     const dispatch = useDispatch();
     useEffect(()=>{
         console.log(params.id)
@@ -21,19 +22,20 @@ function ShowInfo() {
     }, [])
 
     function handleBackButton (){
-        history.push(`/`);
+        history.push(`/DatePicker`);
     }
         return(
             <div>
-                <h1>{selectedMovie.title}</h1>
-                <img src={selectedMovie.poster}></img>
-                <h3>{selectedMovie.description}</h3>
+                {selectedDate ? <ShowInfoTable show={selectedDate}/> : 'it didnt work'}
+                <div>
+                    <form>
+                        <input type='text' placeholder='Name'></input>
+                        <input type='number' placeholder='Amount of tickets'></input>
+                        <input type='checkbox'></input>
+                        <input type='text' placeholder='Method'></input>
+                    </form>
+                </div>
                 <button onClick={()=>{handleBackButton()}}>Back</button>
-                {selectedMovie.genres.map((genre)=>{
-                    return (
-                        <li>{genre}</li>
-                    )}
-                )}
             </div>
         )
 }

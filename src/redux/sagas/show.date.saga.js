@@ -13,17 +13,25 @@ function* getShowDates(){
     } catch {
         console.log('get all error');
     }
-        
 }
 
 
-function* createShow(action) {
+function* createShow(action){
+    // get all movies from the DB
+try {
+    const dates = yield axios.post('/dates', action.payload);
+    console.log('get dates:', dates.data);
+    yield put({ type: 'GET_DATES'});
 
+} catch(error){
+    console.log(error);
+    }
 }
 
-function* showInfoSaga() {
+
+function* showDateSaga() {
     yield takeLatest('GET_DATES', getShowDates);
     yield takeLatest('CREATE_SHOW', createShow);
 }
 
-export default showInfoSaga;
+export default showDateSaga;
