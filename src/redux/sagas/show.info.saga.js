@@ -14,6 +14,18 @@ function* fetchShowDetails(action){
     console.log(err)
 }
 }
+function* createSaleDetails(action){
+    try {
+        console.log('CREATE SALE ACTION.PAYLOAD:',action.payload)
+        const response = yield axios.post(`/showInfo/${action.payload.id}`, action.payload);
+        yield put({ type: 'GET_SHOW_DATA', payload:action.payload.id});
+        console.log(response)
+        
+} catch (err){
+    console.log('GET DATE DETAILS ERROR');
+    console.log(err)
+}
+}
 
 
 
@@ -21,6 +33,7 @@ function* fetchShowDetails(action){
 
 function* showInfoSaga() {
     yield takeLatest('GET_SHOW_DATA', fetchShowDetails);
+    yield takeLatest('CREATE_SALE', createSaleDetails);
 }
 
 export default showInfoSaga;

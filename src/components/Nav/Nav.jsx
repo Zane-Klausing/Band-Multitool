@@ -1,22 +1,46 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
-import './Nav.css';
+// import './Nav.css';
 import { useSelector } from 'react-redux';
+import { AppBar } from '@material-ui/core';
+import { Button } from '@material-ui/core';
+import { Toolbar } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles'
 
 function Nav() {
   const user = useSelector((store) => store.user);
+  const useStyles = makeStyles({
+    Home: {
+      background: "linear-gradient(45deg, #cb218e 30%, #6617cb 90%)",
+      primary: '#5513A8',
+      color: 'white',
+      padding: '1px',
+      margin: '6px'
+    },
+    NavLink:{
+      color: 'white',
+      padding: '1px',
+      margin: '12px'
+    }
+  })
+
+  const classes = useStyles();
 
   return (
     <div className="nav">
-      <Link to="/home">
-        <h2 className="nav-title">Prime Solo Project</h2>
+      <AppBar color="primary" size='medium'>
+        <Toolbar>
+        <Button className={classes.Home} variant='contained' size='small'>
+      <Link to="/home" className={classes.NavLink}>
+        <h2 className={classes.Home}>Band Multi-tool</h2>
       </Link>
+      </Button>
       <div>
         {/* If no user is logged in, show these links */}
         {user.id === null &&
           // If there's no user, show login/registration links
-          <Link className="navLink" to="/login">
+          <Link className={classes.NavLink} to="/login">
             Login / Register
           </Link>
         }
@@ -24,26 +48,34 @@ function Nav() {
         {/* If a user is logged in, show these links */}
         {user.id && (
           <>
-            <Link className="navLink" to="/user">
+          <Button className={classes.Home} variant='contained' size='small'>
+            <Link className={classes.NavLink} to="/home">
               Home
             </Link>
-
-            <Link className="navLink" to="/info">
+            </Button>
+            <Button className={classes.Home} variant='contained' size='small'>
+            <Link className={classes.NavLink} to="/info">
               Info Page
             </Link>
-
-            <Link className="navLink" to="/tools">
+            </Button>
+            <Button className={classes.Home} variant='contained' size='small'>
+            <Link className={classes.NavLink} to="/tools">
               Tools
             </Link>
-
-            <LogOutButton className="navLink" />
+            </Button>
+            <Button className={classes.Home} variant='contained' size='small'>
+            <LogOutButton className={classes.Home} />
+            </Button>
           </>
         )}
-
-        <Link className="navLink" to="/about">
+        <Button className={classes.Home} variant='contained' size='small'>
+        <Link className={classes.NavLink} to="/about">
           About
         </Link>
+        </Button>
       </div>
+      </Toolbar>
+      </AppBar>
     </div>
   );
 }

@@ -29,9 +29,22 @@ try {
 }
 
 
+function* deleteShow(action){
+    try {
+        console.log('+_+_+_+_+_+_+_+_+')
+        console.log(action.payload)
+        const dates = yield axios.delete(`/dates/${action.payload}`);
+        yield put({type: 'GET_DATES'});
+    } catch(error){
+        console.log(error);
+        }
+}
+
+
 function* showDateSaga() {
     yield takeLatest('GET_DATES', getShowDates);
     yield takeLatest('CREATE_SHOW', createShow);
+    yield takeLatest('DELETE_SHOW', deleteShow);
 }
 
 export default showDateSaga;

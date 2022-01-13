@@ -13,6 +13,7 @@ function DatePicker() {
     const history = useHistory();
     const[nameInput, setNameInput] = useState('');
     const[dateInput, setDateInput] = useState ('');
+    const[priceInput, setPriceInput] = useState ('');
 
     const dates = useSelector(store => store.datesReducer);
     const dispatch = useDispatch();
@@ -31,15 +32,20 @@ function DatePicker() {
         payload: { 
             name: nameInput,
             date: dateInput,
+            ticketPrice:priceInput
         }
         })
     }
-    function goToDate (id){
+    function goToDate (date){
+        dispatch({
+            type: 'SET_TICKET_PRICE',
+            payload: date['Ticket Price']
+        })
         dispatch({
             type: 'GET_SHOW_DATA',
-            payload: id
+            payload: date.id
         })
-        history.push(`/showinfo/${id}`);
+        history.push(`/showinfo/${date.id}`);
     }
 return (
     <div className="container">
@@ -54,13 +60,20 @@ return (
         value={dateInput}
         onChange={(e) => setDateInput(e.target.value)}
         />
+        <input type="number"
+        placeholder="Ticket Price"
+        value={priceInput}
+        onChange={(e) => setPriceInput(e.target.value)}
+        />
         <button>Create Date</button>
     </form>
         <div id="dateContainer">
         {dates?.map(date => {
+            console.log(date)
                     return (
-                        <div class="Date" id={date.id} >
-                            <h3 onClick={()=>{goToDate(date.id)}}>{date?.date}</h3>
+                        <div class="Date" id={date.id} onClick={()=>{goToDate(date)}}>
+                            <h2>{date?.date}</h2>
+                            <h3>Ticket Price:${date['Ticket Price']}</h3>
                         </div>
                     );
                 })}

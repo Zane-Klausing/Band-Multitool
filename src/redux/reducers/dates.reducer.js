@@ -1,4 +1,4 @@
-const datesReducer = (state = [{id: null, date: null}], action) => {
+const datesReducer = (state = [{id: null, date: null, ticketPrice: null}], action) => {
     switch (action.type) {
         case 'SET_DATES':
             return action.payload;

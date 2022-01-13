@@ -1,11 +1,16 @@
+import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import './ShowInfo.css'
 function ShowInfoTable(prop){
-console.log('++++++++++++++++++++++++++++++')
-console.log('++++++++++++++++++++++++++++++')
-console.log(prop)
-const showDate = prop.show;
+    const history = useHistory();
+    const params = useParams();
+    const showDate = prop.show;
+function handleEditClick(sale){
+    history.push(`/editSale/${sale.ID}`)
+}
 
 return (
-    <table>
+    <table className='showInfoTable'>
     <thead>
         <tr>
             <td>
@@ -22,6 +27,9 @@ return (
             </td>
             <td>
                 Method
+            </td>
+            <td>
+                Actions
             </td>
         </tr>
     </thead>
@@ -42,6 +50,11 @@ return (
             </td>
             <td>
                 {sale?.method}
+            </td>
+            <td>
+                <button onClick={()=>{handleEditClick(sale)}}>
+                    Edit
+                </button>
             </td>
         </tr>
         )}

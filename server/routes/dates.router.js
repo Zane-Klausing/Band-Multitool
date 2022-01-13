@@ -6,9 +6,9 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
  * GET route template
  */
 router.get('/', rejectUnauthenticated, (req, res) => {
-    console.log(req.user)
+    //console.log(req.user)
     const sqlText = 
-    `SELECT "show".show_name, "show".date, "show".id  FROM show
+    `SELECT "show".show_name, "show".date, "show".id, "show"."Ticket Price" FROM show
     JOIN "user_show" on "show".id = "user_show".show_id
     JOIN "user" on "user".id = "user_show".user_id
     Where "user".id = $1;
@@ -20,7 +20,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
         for (let i=0; i<dbRes.rows.length; i++){
             let formattedDateArray = (`${dbRes.rows[i].date}`).split(' 00:00:00');
             dbRes.rows[i].date = formattedDateArray[0]
-            console.log(formattedDateArray)
+            //console.log(formattedDateArray)
         };
         console.log(dbRes.rows)
         res.send(dbRes.rows);
@@ -35,17 +35,16 @@ router.get('/', rejectUnauthenticated, (req, res) => {
  */
 router.post('/', (req, res) => {
   // POST route code here
-console.log(req.body);
   // RETURNING "id" will give us back the id of the created movie
 const insertDateQuery = `
-INSERT INTO "show" ("show_name", "date")
-VALUES ($1, $2)
+INSERT INTO "show" ("show_name", "date", "Ticket Price")
+VALUES ($1, $2, $3)
 RETURNING "id";`
 
   // FIRST QUERY MAKES MOVIE
-pool.query(insertDateQuery, [req.body.name, req.body.date])
+pool.query(insertDateQuery, [req.body.name, req.body.date, req.body.ticketPrice])
 .then(result => {
-    console.log('New Date Id:', result.rows[0].id); //ID IS HERE!
+    //console.log('New Date Id:', result.rows[0].id); //ID IS HERE!
     
     const createdDateId = result.rows[0].id
 
@@ -69,6 +68,41 @@ pool.query(insertDateQuery, [req.body.name, req.body.date])
         console.log(err);
         res.sendStatus(500)
     })
+});
+
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
+    // RETURNING "id" will give us back the id of the created movie
+const deleteLink = `
+DELETE FROM "user_show"
+WHERE "user_show"."show_id" = $1;
+`
+
+    // FIRST QUERY MAKES MOVIE
+pool.query(deleteLink, [req.params.id])
+    .then(result => {
+        const deleteDate = `DELETE FROM "show"
+        WHERE "show"."id" = $1;`
+        pool.query(deleteDate, [req.params.id])
+            .then(result => {
+            const deleteSales = `DELETE FROM "sales"
+            WHERE "show_id" = $1;`
+            pool.query(deleteSales, [req.params.id])
+                .then(result => {
+                    res.send(201)
+                }).catch(err => {
+                console.log(err);
+                res.sendStatus(500)
+        })
+        })
+            .catch(err => {
+            console.log(err);
+            res.sendStatus(500)
+            })
+    .catch(err => {
+    console.log(err);
+    res.sendStatus(500)
+    })
+})
 });
 
 module.exports = router;

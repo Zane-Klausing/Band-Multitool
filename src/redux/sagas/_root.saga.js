@@ -4,6 +4,7 @@ import registrationSaga from './registration.saga';
 import userSaga from './user.saga';
 import showDateSaga from './show.date.saga'
 import showInfoSaga from './show.info.saga';
+import saleInfoSaga from './sale.info.saga';
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
 // This is imported in index.js as rootSaga
@@ -18,6 +19,7 @@ export default function* rootSaga() {
     userSaga(),
     showDateSaga(),
     showInfoSaga(),
+    saleInfoSaga(),
     
   ]);
 }
