@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {useSelector} from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles'
+import { Button } from '@material-ui/core';
 
 function LoginForm() {
   const [username, setUsername] = useState('');
@@ -8,8 +10,35 @@ function LoginForm() {
   const errors = useSelector(store => store.errors);
   const dispatch = useDispatch();
 
+  const useStyles = makeStyles({
+    btn1: {
+        primary: '#393444',
+        color: 'Black',
+        padding: '5px',
+        margin: '6px',
+        boxShadow: '1px 2px 8px #111118F0',
+        cursor: 'pointer',
+        backgroundSize: '200%',
+        transition: '0.4s',
+        '&:hover': {
+        backgroundPosition: 'right'
+        },
+    },
+        btn2:{
+            backgroundImage: 'linear-gradient(45deg, #504860, #ffffff)'
+        },
+        inputStyled:{
+            color: 'black',
+            '&::placeholder': {
+                color: 'black'
+            }
+        }
+})
+const classes = useStyles()
+
   const login = (event) => {
     event.preventDefault();
+    
 
     if (username && password) {
       dispatch({
@@ -57,7 +86,14 @@ function LoginForm() {
         </label>
       </div>
       <div>
-        <input className="btn" type="submit" name="submit" value="Log In" />
+        <Button className={`${classes.btn1} ${classes.btn2}`}
+        variant='contained' 
+        type="submit" 
+        name="submit" 
+        value="Log In"
+        onClick={login}>
+          Log In
+        </Button>
       </div>
     </form>
   );

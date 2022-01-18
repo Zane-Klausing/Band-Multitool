@@ -2,7 +2,9 @@ import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
+import { makeStyles } from '@material-ui/core/styles'
+import './ShowInfo.css'
+import { Button, Select, TextField } from '@material-ui/core';
 function EditSale(){
     const params = useParams();
     const history = useHistory();
@@ -16,6 +18,46 @@ function EditSale(){
         })
     }, [])
 
+    const useStyles = makeStyles({
+        table: {
+            background: '#c6c1d1',
+            width: '100%',
+            alignItems:'center',
+            justifyContent:'center'
+        },
+        form:{
+            width: '118%',
+            height: '90%',
+            background: '#5b526d'
+        },
+        gridLeft:{
+            marginRight: '1.25%',
+            marginLeft: '1.25%'
+        },
+        btn1: {
+            primary: '#393444',
+            color: 'Black',
+            padding: '5px',
+            margin: '6px',
+            boxShadow: '1px 2px 8px #111118F0',
+            cursor: 'pointer',
+            backgroundSize: '200%',
+            transition: '0.4s',
+            '&:hover': {
+            backgroundPosition: 'right'
+            },
+        },
+            btn2:{
+                backgroundImage: 'linear-gradient(45deg, #504860, #ffffff)'
+            },
+            inputStyled:{
+                color: 'black',
+                '&::placeholder': {
+                    color: 'black'
+                }
+            }
+    })
+    const classes = useStyles()
     function handleBackButton (){
         history.push(`/showinfo/${saleToEdit.show_id}`);
     }
@@ -77,52 +119,52 @@ function EditSale(){
     }
 
     return(
-        <div>
+        <div className='editSale'>
             
                     <form onSubmit={handleSubmit}>
                     <label for="nameInput">Name:</label>
-                        <input type='text'
+                        <TextField type='text'
                         placeholder='Name'
                         value={saleToEdit.Name}
                         onChange={handleNameEdit}
-                        id="nameInput"></input>
+                        id="nameInput"></TextField>
                         
 
                         <label for="amountInput">Amount:</label>
-                        <input type='number' 
+                        <TextField type='number' 
                         placeholder='Amount of tickets'
                         value={saleToEdit.Amount}
                         onChange={handleAmountEdit}
-                        id="amountInput"></input>
+                        id="amountInput"></TextField>
 
                         <label for="priceInput">Price:</label>
-                        <input type='number' 
+                        <TextField type='number' 
                         placeholder='Price'
                         value={saleToEdit.Price}
                         onChange={handlePriceEdit}
-                        id="priceInput"></input>
+                        id="priceInput"></TextField>
 
                         <label for="statusInput">Complete?:</label>
-                        <select type='checkbox'
+                        <Select type='checkbox'
                         value={saleToEdit.status}
                         onChange={handleStatusEdit}
                         id="statusInput">
                             <option value="true" >Complete</option>
                             <option value="false" >Pending Payment</option>
-                        </select>
+                        </Select>
 
                         <label for="methodInput">Method:</label>
-                        <input type='text' 
+                        <TextField type='text' 
                         placeholder='Method'
                         value={saleToEdit.method}
                         onChange={handleMethodEdit}
-                        id="methodInput"></input>
+                        id="methodInput"></TextField>
 
-                        <button>Edit Sale</button>
+                        <Button Button className={`${classes.btn1} ${classes.btn2}`} variant='contained' onClick={handleSubmit}>Submit Sale</Button>
                     </form>
-                    <button onClick={handleDelete}>Delete Sale</button>
+                    <Button Button className={`${classes.btn1} ${classes.btn2}`} variant='contained' onClick={handleDelete}>Delete Sale</Button>
             
-            <button onClick={()=>{handleBackButton()}}>Back</button>
+            <Button className={`${classes.btn1} ${classes.btn2}`} variant='contained' onClick={()=>{handleBackButton()}}>Back</Button>
         </div>
     )
 }

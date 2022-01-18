@@ -14,24 +14,50 @@
     overflow: hidden;
 
 }
-.Date{
-display: inline-block;
-color: #f2f2f2;
-background-color: #00acb0;
-text-align: center;
-padding: 24px 10px;
-text-decoration: none;
-font-size: 15px;
 
-/* these last two make the logout button in
-the nav bar look like another link */
-border: none;
-cursor: pointer;
-outline: 0;
+.form{
+    width: 30%;
 }
 
+.showInfoForm{
+    display: flex;
+    padding: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+.showInfoFormChild{
+    width: 50%;
+    margin: 2%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.editSale{
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.total{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .Date:hover {
 background-color: #008183;
 }
 
+.tableHead{
+    border-bottom: 3px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tableBody{
+    border-bottom: 1px solid black;
+    align-items: center;
+    justify-content: center;
+}

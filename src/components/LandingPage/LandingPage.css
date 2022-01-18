@@ -85,3 +85,12 @@ Grid
   flex-basis: 100%;
   max-width: 100%;
 }
+
+.content{
+  margin-top: 20px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}

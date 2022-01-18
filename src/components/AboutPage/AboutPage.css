@@ -1,4 +1,11 @@
 .aboutPage {
-    padding-top: 30px;
-    padding-bottom: 32%;
+    margin-top: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aboutPaper {
+    padding: 8px;
 }

@@ -1,3 +1,4 @@
+import { Paper } from '@material-ui/core';
 import React from 'react';
 import './AboutPage.css';
 
@@ -9,9 +10,35 @@ import './AboutPage.css';
 function AboutPage() {
   return (
     <div className="aboutPage">
-      <div>
-        <p>This about page is for anyone to read!</p>
+      <Paper className="aboutPaper">
+      <div className="aboutPaper">
+        <h3>Technologies used</h3>
+        <ul>
+          <li>
+            Node
+          </li>
+          <li>
+            PostgreSQL
+          </li>
+          <li>
+            React
+          </li>
+          <li>
+            Redux
+          </li>
+          <li>
+            Sagas
+          </li>
+          <li>
+            MaterialUI
+          </li>
+        </ul>
+        <h3>Biggest Challenge</h3>
+        <p>
+          Styling
+        </p>
       </div>
+      </Paper>
     </div>
   );
 }

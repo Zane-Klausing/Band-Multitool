@@ -30,10 +30,13 @@ function App() {
 
   const useStyles = makeStyles({
     root: {
-      background: "linear-gradient(45deg, #cb218e 30%, #6617cb 90%)",
-      primary: '#5513A8',
-      height: '100%',
-      marginTop: '40px'
+      backgroundImage: `url(${process.env.PUBLIC_URL + '/image.jpg'})`,
+      backgroundPosition:'center',
+      backgroundSize:'cover',
+      backgroundRepeat:'no-repeat',
+      primary: '#393444',
+      minHeight: '100%',
+      marginBottom:'0px'
 
 
     }
@@ -54,9 +57,10 @@ function App() {
         <Router >
           
             <Nav className={classes.root}/>
+            <div style={{paddingTop: "85px"}}/>
             <Switch>
               {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
-              <Redirect exact from="/" to="/home" />
+              <Redirect exact from="/" to="/login" />
 
               {/* Visiting localhost:3000/about will show the about page. */}
               <Route
@@ -100,14 +104,14 @@ function App() {
               >
                 <UserPage />
               </ProtectedRoute>
-
+{/* 
               <ProtectedRoute
                 // logged in shows InfoPage else shows LoginPage
                 exact
                 path="/info"
               >
                 <InfoPage />
-              </ProtectedRoute>
+              </ProtectedRoute> */}
 
               <ProtectedRoute
                 // logged in shows InfoPage else shows LoginPage
@@ -164,6 +168,7 @@ function App() {
                 <h1>404</h1>
               </Route>
             </Switch>
+
             {/* <Footer /> */}
           
         </Router>

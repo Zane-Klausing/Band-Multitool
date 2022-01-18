@@ -1,6 +1,8 @@
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import './ShowInfo.css'
+import { Button, Paper, Table, TableBody, TableHead } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 function ShowInfoTable(prop){
     const history = useHistory();
     const params = useParams();
@@ -9,9 +11,31 @@ function handleEditClick(sale){
     history.push(`/editSale/${sale.ID}`)
 }
 
+const useStyles = makeStyles({
+    btn1: {
+        primary: '#393444',
+        color: 'Black',
+        padding: '5px',
+        margin: '6px',
+        boxShadow: '1px 2px 8px #111118F0',
+        cursor: 'pointer',
+        backgroundSize: '200%',
+        transition: '0.4s',
+        '&:hover': {
+        backgroundPosition: 'right'
+        },
+    },
+        btn2:{
+            backgroundImage: 'linear-gradient(45deg, #504860, #ffffff)'
+        },
+
+})
+const classes = useStyles()
+
+
 return (
-    <table className='showInfoTable'>
-    <thead>
+    <Table>
+    <TableHead className='tableHead'>
         <tr>
             <td>
                 Name
@@ -32,10 +56,10 @@ return (
                 Actions
             </td>
         </tr>
-    </thead>
-    <tbody>
+        </TableHead>
+    <TableBody >
         {showDate?.map((sale)=> 
-        <tr>
+        <tr className='tableBody'>
             <td>
                 {sale?.Name}
             </td>
@@ -52,14 +76,14 @@ return (
                 {sale?.method}
             </td>
             <td>
-                <button onClick={()=>{handleEditClick(sale)}}>
+                <Button className={`${classes.btn1} ${classes.btn2}`} variant='contained' onClick={()=>{handleEditClick(sale)}}>
                     Edit
-                </button>
+                </Button>
             </td>
         </tr>
         )}
-    </tbody>
-</table>
+    </TableBody>
+</Table>
 )
 
 }
